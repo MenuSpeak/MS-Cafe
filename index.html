@@ -193,93 +193,6 @@
       border: 2px solid #c62828;
     }
 
-    /* View Menu Button Styles */
-    .view-menu-container {
-      text-align: center;
-      margin: 25px 0 15px 0;
-      animation: fadeInUp 0.8s ease;
-    }
-
-    .view-menu-btn {
-      background: linear-gradient(90deg, var(--gold1), var(--gold2));
-      color: #0b0b0d;
-      border: none;
-      padding: 14px 32px;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      font-family: var(--ff-heading);
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .view-menu-btn:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 12px 35px rgba(212, 175, 55, 0.35);
-    }
-
-    .view-menu-btn:active {
-      transform: translateY(-1px) scale(0.98);
-    }
-
-    .view-menu-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: left 0.7s ease;
-      z-index: -1;
-    }
-
-    .view-menu-btn:hover::before {
-      left: 100%;
-    }
-
-    .arrow-icon {
-      transition: transform 0.4s ease;
-    }
-
-    .view-menu-btn:hover .arrow-icon {
-      transform: translateX(5px);
-    }
-
-    /* Menu Slide Animation */
-    .menu-section {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateY(30px);
-    }
-
-    .menu-section.show {
-      max-height: 5000px;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
     /* Location Link Section - Added at bottom */
     .location-link-section {
       background: rgba(255, 255, 255, 0.03);
@@ -1039,11 +952,6 @@
       .cart-actions {
         flex-direction: row;
       }
-      
-      .view-menu-btn {
-        padding: 16px 40px;
-        font-size: 1.2rem;
-      }
     }
 
     @media (min-width: 1024px) {
@@ -1065,6 +973,94 @@
         display: none;
       }
     }
+
+
+    /* Tabs Navigation - Category Buttons */
+.tabs-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.tabs-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+  justify-content: center;
+}
+
+.tab {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  margin: 2px;
+}
+
+.tab.active {
+  background: linear-gradient(90deg, var(--gold1), var(--gold2));
+  color: #0b0b0d;
+  border: none;
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
+}
+
+/* Hover effect for better UX */
+.tab:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .tabs-scroll {
+    justify-content: flex-start;
+  }
+  
+  .tab {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .tab {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  .tab {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  
+  .tabs-scroll {
+    justify-content: center;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .tab {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .tabs-scroll {
+    gap: 5px;
+  }
+}
+
+
   </style>
 </head>
 <body>
@@ -1089,33 +1085,23 @@
           <span>Non Veg</span>
         </div>
       </div>
-      
-      <!-- View Menu Card Button -->
-      <div class="view-menu-container">
-        <button class="view-menu-btn" id="viewMenuBtn">
-          View Menu Card
-          <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </button>
-      </div>
     </div>
 
-    <!-- Main Menu (Hidden by default) -->
-    <div class="menu-section" id="menuSection">
-      <main class="menu">
-        <div class="menu-head">
-          <div class="controls">
-            <div class="search" role="search">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M21 21l-4.35-4.35" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-                <circle cx="11" cy="11" r="6" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></circle>
-              </svg>
-              <input id="search" placeholder="Search dishes, ingredients..." />
-            </div>
+    <!-- Main Menu -->
+    <main class="menu">
+      <div class="menu-head">
+        <div class="controls">
+          <div class="search" role="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M21 21l-4.35-4.35" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              <circle cx="11" cy="11" r="6" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></circle>
+            </svg>
+            <input id="search" placeholder="Search dishes, ingredients..." />
+          </div>
 
-            <div class="tabs-scroll">
-             <button class="tab active" data-cat="all">All</button>
+          <div class="tabs-scroll">
+           <button class="tab active" data-cat="all">All</button>
+            <button class="tab" data-cat="VEG ROLLS">VEG ROLLS</button>
 <button class="tab" data-cat="PIZZA">PIZZA</button>
 <button class="tab" data-cat="SHAKES/COLD COFFEE">SHAKES/COLD COFFEE</button>
 <button class="tab" data-cat="BURGER">BURGER</button>
@@ -1128,18 +1114,17 @@
 <button class="tab" data-cat="PASTA">PASTA</button>
 <button class="tab" data-cat="MAGGI">MAGGI</button>
 <button class="tab" data-cat="MOMO'S">MOMO'S</button>
-            </div>
           </div>
         </div>
+      </div>
 
-        <section class="menu-grid" id="menuGrid">
-          <!-- Cards injected by JS -->
-        </section>
-      </main>
-    </div>
+      <section class="menu-grid" id="menuGrid">
+        <!-- Cards injected by JS -->
+      </section>
+    </main>
 
     <!-- Location Link Section - Added at bottom -->
-    <!-- <div class="location-link-section">
+    <div class="location-link-section">
       <div class="location-link-header">
         <svg class="location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
@@ -1157,7 +1142,7 @@
         </a>
       </div>
     </div>
-  </div> -->
+  </div>
 
   <!-- Cart Button -->
   <div class="cart-container">
@@ -1259,6 +1244,23 @@
   <script>
     // Menu Data   
     const data = [
+{"id": 84, "cat": "VEG ROLLS", "name": "Aloo Roll (Plain)", "price": "Rs. 30", "desc": "Delicious potato filling roll", "tags": ["Veg", "Rolls"], "img": "img/ALOO_ROLL_PLAIN.jpeg"},
+{"id": 85, "cat": "VEG ROLLS", "name": "Aloo Roll (Cheese)", "price": "Rs. 50", "desc": "Potato roll with melted cheese", "tags": ["Veg", "Rolls"], "img": "img/ALOO_ROLL_CHEESE.jpeg"},
+{"id": 86, "cat": "VEG ROLLS", "name": "Aloo Roll (Cheese Crispy)", "price": "Rs. 55", "desc": "Crispy potato roll with cheese", "tags": ["Veg", "Rolls"], "img": "img/ALOO_ROLL_CRISPY.jpeg"},
+{"id": 87, "cat": "VEG ROLLS", "name": "Paneer Roll (Plain)", "price": "Rs. 55", "desc": "Classic paneer tikka roll", "tags": ["Veg", "Rolls"], "img": "img/PANEER_ROLL_PLAIN.jpeg"},
+{"id": 88, "cat": "VEG ROLLS", "name": "Paneer Roll (Cheese)", "price": "Rs. 75", "desc": "Paneer roll with extra cheese", "tags": ["Veg", "Rolls"], "img": "img/PANEER_ROLL_CHEESE.jpeg"},
+{"id": 89, "cat": "VEG ROLLS", "name": "Paneer Roll (Cheese Crispy)", "price": "Rs. 80", "desc": "Extra crispy paneer cheese roll", "tags": ["Veg", "Rolls"], "img": "img/PANEER_ROLL_CRISPY.jpeg"},
+{"id": 90, "cat": "VEG ROLLS", "name": "Mushroom Chilli Roll (Plain)", "price": "Rs. 60", "desc": "Spicy mushroom filling roll", "tags": ["Veg", "Rolls"], "img": "img/MUSHROOM_ROLL_PLAIN.jpeg"},
+{"id": 91, "cat": "VEG ROLLS", "name": "Mushroom Chilli Roll (Cheese)", "price": "Rs. 80", "desc": "Mushroom roll with cheese", "tags": ["Veg", "Rolls"], "img": "img/MUSHROOM_ROLL_CHEESE.jpeg"},
+{"id": 92, "cat": "VEG ROLLS", "name": "Mushroom Chilli Roll (Cheese Crispy)", "price": "Rs. 85", "desc": "Crispy mushroom roll with cheese", "tags": ["Veg", "Rolls"], "img": "img/MUSHROOM_ROLL_CRISPY.jpeg"},
+{"id": 93, "cat": "VEG ROLLS", "name": "Mix Veg Roll (Plain)", "price": "Rs. 60", "desc": "Healthy mixed vegetable roll", "tags": ["Veg", "Rolls"], "img": "img/MIX_VEG_ROLL_PLAIN.jpeg"},
+{"id": 94, "cat": "VEG ROLLS", "name": "Mix Veg Roll (Cheese)", "price": "Rs. 80", "desc": "Mix veg roll with creamy cheese", "tags": ["Veg", "Rolls"], "img": "img/MIX_VEG_ROLL_CHEESE.jpeg"},
+{"id": 95, "cat": "VEG ROLLS", "name": "Mix Veg Roll (Cheese Crispy)", "price": "Rs. 85", "desc": "Crispy mixed vegetable cheese roll", "tags": ["Veg", "Rolls"], "img": "img/MIX_VEG_ROLL_CRISPY.jpeg"},
+{"id": 96, "cat": "VEG ROLLS", "name": "Special Cheese Roll (Plain)", "price": "Rs. 35", "desc": "Chef's special cheese loaded roll", "tags": ["Veg", "Rolls"], "img": "img/SPECIAL_CHEESE_ROLL.jpeg"},
+{"id": 97, "cat": "VEG ROLLS", "name": "Special Cheese Roll (Crispy)", "price": "Rs. 40", "desc": "Chef's special crispy cheese roll", "tags": ["Veg", "Rolls"], "img": "img/SPECIAL_CHEESE_ROLL_CRISPY.jpeg"},
+{"id": 98, "cat": "VEG ROLLS", "name": "Special Corn Cheese Roll (Plain)", "price": "Rs. 45", "desc": "Sweet corn and cheese specialty roll", "tags": ["Veg", "Rolls"], "img": "img/SPECIAL_CORN_ROLL.jpeg"},
+{"id": 99, "cat": "VEG ROLLS", "name": "Special Corn Cheese Roll (Crispy)", "price": "Rs. 50", "desc": "Crispy corn and cheese specialty roll", "tags": ["Veg", "Rolls"], "img": "img/SPECIAL_CORN_ROLL_CRISPY.jpeg"},
+      
 {"id": 1, "cat": "PIZZA", "name": "Plain pizza 7\" / प्लेन पिझ्झा ७\"", "price": "Rs. 110", "desc": "Classic 7 inch plain cheese pizza", "tags": ["Veg", "Pizza"], "img": "img/PLAIN_PIZZA_7.jpeg"},
 {"id": 2, "cat": "PIZZA", "name": "Paneer pizza 7\" / पनीर पिझ्झा ७\"", "price": "Rs. 140", "desc": "7 inch pizza topped with paneer", "tags": ["Veg", "Pizza"], "img": "img/PANEER_PIZZA_7.jpeg"},
 {"id": 3, "cat": "PIZZA", "name": "Paneer pizza 8\" / पनीर पिझ्झा ८\"", "price": "Rs. 180", "desc": "8 inch pizza topped with paneer", "tags": ["Veg", "Pizza"], "img": "img/PANEER_PIZZA_8.jpeg"},
@@ -1272,7 +1274,7 @@
 {"id": 11, "cat": "PIZZA", "name": "Veg cheese pizza 8\" / व्हेज चीज पिझ्झा ८\"", "price": "Rs. 160", "desc": "8 inch vegetable and cheese pizza", "tags": ["Veg", "Pizza"], "img": "img/VEG_CHEESE_PIZZA_8.jpeg"},
 {"id": 12, "cat": "PIZZA", "name": "Mexican spice pizza 8\" / मेक्सिकन स्पाइस पिझ्झा ८\"", "price": "Rs. 170", "desc": "8 inch spicy mexican style pizza", "tags": ["Veg", "Pizza"], "img": "img/MEXICAN_SPICE_PIZZA_8.jpeg"},
 {"id": 13, "cat": "PIZZA", "name": "Mushroom pizza 8\" / मशरूम पिझ्झा ८\"", "price": "Rs. 180", "desc": "8 inch pizza topped with mushrooms", "tags": ["Veg", "Pizza"], "img": "img/MUSHROOM_PIZZA_8.jpeg"},
-{"id": 14, "cat": "PIZZA", "name": "Roll & funn special pizza 8\" / रोल अँड फन स्पेशल पिझ्झा ८\"", "price": "Rs. 240", "desc": "Signature special 8 inch pizza", "tags": ["Veg", "Pizza"], "img": "img/ROLL_FUNN_SPECIAL_PIZZA_8.jpeg"},
+{"id": 14, "cat": "PIZZA", "name": "MS Cafe special pizza 8\" / MS कॅफे स्पेशल पिझ्झा ८\"", "price": "Rs. 240", "desc": "Signature special 8 inch pizza", "tags": ["Veg", "Pizza"], "img": "img/ROLL_FUNN_SPECIAL_PIZZA_8.jpeg"},
 {"id": 15, "cat": "SHAKES/COLD COFFEE", "name": "Cold coffee (Plain) / कोल्ड कॉफी (प्लेन)", "price": "Rs. 35", "desc": "Refreshing chilled coffee", "tags": ["Veg", "Drinks"], "img": "img/COLD_COFFEE_PLAIN.jpeg"},
 {"id": 16, "cat": "SHAKES/COLD COFFEE", "name": "Special thick cold coffee / स्पेशल थिक कोल्ड कॉफी", "price": "Rs. 60", "desc": "Rich and creamy thick cold coffee", "tags": ["Veg", "Drinks"], "img": "img/SPECIAL_THICK_COLD_COFFEE.jpeg"},
 {"id": 17, "cat": "SHAKES/COLD COFFEE", "name": "Coffee with crush / कॉफी विथ क्रश", "price": "Rs. 70", "desc": "Cold coffee with crunchy crush", "tags": ["Veg", "Drinks"], "img": "img/COFFEE_WITH_CRUSH.jpeg"},
@@ -1357,11 +1359,6 @@
     const clearCart = document.getElementById('clearCart');
     const whatsappOrder = document.getElementById('whatsappOrder');
     const customerDetailsSummary = document.getElementById('customerDetailsSummary');
-    
-    // View Menu Button functionality
-    const viewMenuBtn = document.getElementById('viewMenuBtn');
-    const menuSection = document.getElementById('menuSection');
-    let menuVisible = false;
 
     // Helper function to extract price number from price string
     function extractPriceNumber(priceString) {
@@ -1373,20 +1370,6 @@
     // Helper function to format price for display
     function formatPrice(price) {
       return `₹${price}`;
-    }
-
-    // Open menu function
-    function openMenu() {
-      menuVisible = true;
-      menuSection.classList.add('show');
-      
-      // Scroll to menu with smooth animation
-      setTimeout(() => {
-        menuSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 300);
     }
 
     // Delivery option selection
@@ -1708,9 +1691,6 @@
       // Set default delivery option
       selectDeliveryOption('restaurant');
       
-      // Initialize view menu button
-      viewMenuBtn.addEventListener('click', openMenu);
-      
       // Render menu items
       renderMenuItems(data);
       
@@ -1740,7 +1720,6 @@
     window.removeFromCart = removeFromCart;
     window.updateQuantity = updateQuantity;
     window.selectDeliveryOption = selectDeliveryOption;
-    window.openMenu = openMenu;
   </script>
 </body>
 </html>
