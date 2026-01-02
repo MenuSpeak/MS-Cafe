@@ -193,6 +193,93 @@
       border: 2px solid #c62828;
     }
 
+    /* View Menu Button Styles */
+    .view-menu-container {
+      text-align: center;
+      margin: 25px 0 15px 0;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .view-menu-btn {
+      background: linear-gradient(90deg, var(--gold1), var(--gold2));
+      color: #0b0b0d;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: var(--ff-heading);
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .view-menu-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(212, 175, 55, 0.35);
+    }
+
+    .view-menu-btn:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .view-menu-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.7s ease;
+      z-index: -1;
+    }
+
+    .view-menu-btn:hover::before {
+      left: 100%;
+    }
+
+    .arrow-icon {
+      transition: transform 0.4s ease;
+    }
+
+    .view-menu-btn:hover .arrow-icon {
+      transform: translateX(5px);
+    }
+
+    /* Menu Slide Animation */
+    .menu-section {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(30px);
+    }
+
+    .menu-section.show {
+      max-height: 5000px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     /* Location Link Section - Added at bottom */
     .location-link-section {
       background: rgba(255, 255, 255, 0.03);
@@ -952,6 +1039,11 @@
       .cart-actions {
         flex-direction: row;
       }
+      
+      .view-menu-btn {
+        padding: 16px 40px;
+        font-size: 1.2rem;
+      }
     }
 
     @media (min-width: 1024px) {
@@ -997,22 +1089,33 @@
           <span>Non Veg</span>
         </div>
       </div>
+      
+      <!-- View Menu Card Button -->
+      <div class="view-menu-container">
+        <button class="view-menu-btn" id="viewMenuBtn">
+          View Menu Card
+          <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <!-- Main Menu -->
-    <main class="menu">
-      <div class="menu-head">
-        <div class="controls">
-          <div class="search" role="search">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M21 21l-4.35-4.35" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-              <circle cx="11" cy="11" r="6" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></circle>
-            </svg>
-            <input id="search" placeholder="Search dishes, ingredients..." />
-          </div>
+    <!-- Main Menu (Hidden by default) -->
+    <div class="menu-section" id="menuSection">
+      <main class="menu">
+        <div class="menu-head">
+          <div class="controls">
+            <div class="search" role="search">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M21 21l-4.35-4.35" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                <circle cx="11" cy="11" r="6" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></circle>
+              </svg>
+              <input id="search" placeholder="Search dishes, ingredients..." />
+            </div>
 
-          <div class="tabs-scroll">
-           <button class="tab active" data-cat="all">All</button>
+            <div class="tabs-scroll">
+             <button class="tab active" data-cat="all">All</button>
 <button class="tab" data-cat="PIZZA">PIZZA</button>
 <button class="tab" data-cat="SHAKES/COLD COFFEE">SHAKES/COLD COFFEE</button>
 <button class="tab" data-cat="BURGER">BURGER</button>
@@ -1025,14 +1128,15 @@
 <button class="tab" data-cat="PASTA">PASTA</button>
 <button class="tab" data-cat="MAGGI">MAGGI</button>
 <button class="tab" data-cat="MOMO'S">MOMO'S</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <section class="menu-grid" id="menuGrid">
-        <!-- Cards injected by JS -->
-      </section>
-    </main>
+        <section class="menu-grid" id="menuGrid">
+          <!-- Cards injected by JS -->
+        </section>
+      </main>
+    </div>
 
     <!-- Location Link Section - Added at bottom -->
     <div class="location-link-section">
@@ -1253,6 +1357,11 @@
     const clearCart = document.getElementById('clearCart');
     const whatsappOrder = document.getElementById('whatsappOrder');
     const customerDetailsSummary = document.getElementById('customerDetailsSummary');
+    
+    // View Menu Button functionality
+    const viewMenuBtn = document.getElementById('viewMenuBtn');
+    const menuSection = document.getElementById('menuSection');
+    let menuVisible = false;
 
     // Helper function to extract price number from price string
     function extractPriceNumber(priceString) {
@@ -1264,6 +1373,20 @@
     // Helper function to format price for display
     function formatPrice(price) {
       return `₹${price}`;
+    }
+
+    // Open menu function
+    function openMenu() {
+      menuVisible = true;
+      menuSection.classList.add('show');
+      
+      // Scroll to menu with smooth animation
+      setTimeout(() => {
+        menuSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 300);
     }
 
     // Delivery option selection
@@ -1585,6 +1708,9 @@
       // Set default delivery option
       selectDeliveryOption('restaurant');
       
+      // Initialize view menu button
+      viewMenuBtn.addEventListener('click', openMenu);
+      
       // Render menu items
       renderMenuItems(data);
       
@@ -1614,6 +1740,7 @@
     window.removeFromCart = removeFromCart;
     window.updateQuantity = updateQuantity;
     window.selectDeliveryOption = selectDeliveryOption;
+    window.openMenu = openMenu;
   </script>
 </body>
 </html>
