@@ -1349,6 +1349,8 @@
     // Cart functionality
     let cart = [];
     let deliveryType = 'restaurant'; // Default to restaurant
+    const HOME_DELIVERY_CHARGE = 20; // ₹20 delivery charge
+    
     const cartButton = document.getElementById('cartButton');
     const cartModal = document.getElementById('cartModal');
     const closeCart = document.getElementById('closeCart');
@@ -1384,7 +1386,8 @@
       document.getElementById('restaurantForm').classList.toggle('active', type === 'restaurant');
       document.getElementById('homeDeliveryForm').classList.toggle('active', type === 'home');
       
-      // Update details summary
+      // Update cart total with delivery charge
+      updateCart();
       updateCustomerDetailsSummary();
     }
 
@@ -1509,7 +1512,7 @@
       }
     }
 
-    // Update cart display
+    // Update cart display - FIXED CLEAR CART ISSUE
     function updateCart() {
       // Update cart count
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1519,6 +1522,7 @@
       if (cart.length === 0) {
         cartEmpty.style.display = 'block';
         cartItems.innerHTML = '';
+        cartTotal.textContent = formatPrice(0); // Reset total to ₹0
       } else {
         cartEmpty.style.display = 'none';
         
@@ -1546,14 +1550,29 @@
         });
         
         cartItems.innerHTML = itemsHTML;
+        
+        // Add ₹20 delivery charge for home delivery
+        if (deliveryType === 'home') {
+          totalAmount += HOME_DELIVERY_CHARGE;
+        }
+        
         cartTotal.textContent = formatPrice(totalAmount);
       }
     }
 
-    // Clear cart
+    // Clear cart - FIXED: Properly clears everything
     clearCart.addEventListener('click', () => {
       cart = [];
       updateCart();
+      
+      // Also clear form fields
+      document.getElementById('tableNumber').value = '';
+      document.getElementById('customerName').value = '';
+      document.getElementById('customerMobile').value = '';
+      document.getElementById('customerAddress').value = '';
+      
+      // Reset delivery type to restaurant
+      selectDeliveryOption('restaurant');
     });
 
     // WhatsApp order function with customer details
@@ -1615,9 +1634,15 @@
         message += `• ${item.name} - ${item.quantity} x ${item.price}\n`;
       });
       
-      const totalAmount = cart.reduce((sum, item) => {
+      let totalAmount = cart.reduce((sum, item) => {
         return sum + (item.priceNumber * item.quantity);
       }, 0);
+      
+      // Add ₹20 delivery charge for home delivery in WhatsApp message
+      if (deliveryType === 'home') {
+        message += `• Home Delivery Charge - ₹${HOME_DELIVERY_CHARGE}\n`;
+        totalAmount += HOME_DELIVERY_CHARGE;
+      }
       
       message += `\n**Total Amount:** ₹${totalAmount}\n\n`;
       message += `Thank you!`;
